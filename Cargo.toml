@@ -2,7 +2,14 @@
 name = "aoc23"
 version = "0.1.0"
 edition = "2021"
+default-run = "dec02"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name="dec02"
+path="src/dec02.rs"
 
 [dependencies]
+rayon = "1.10.0"
+regex = "1.11.1"
+tokio = "1.42.0"
