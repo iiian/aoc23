@@ -2,7 +2,7 @@ use std::{error::Error, fs::read_to_string};
 
 use regex::Regex;
 fn main() -> Result<(), Box<dyn Error>> {
-    let raw = read_to_string("inputs/dec_02.txt")?;
+    let raw = read_to_string("inputs/dec02.txt")?;
 
     let result = handle_puzzle1(&raw);
     println!("Test 1: {result}");
