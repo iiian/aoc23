@@ -1,5 +1,5 @@
+use std::time::Instant;
 use std::{error::Error, fs::read_to_string};
-
 fn main() -> Result<(), Box<dyn Error>> {
     // TODO! ---------------------------__
     //                                  __
