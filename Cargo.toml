@@ -1,8 +1,14 @@
+cargo-features = ["edition2024"]
+
 [package]
 name = "aoc23"
 version = "0.1.0"
-edition = "2021"
-default-run = "dec06"
+edition = "2024"
+default-run = "dec08"
+
+[[bin]]
+name = "dec08"
+path = "src/dec08.rs"
 
 [[bin]]
 name = "dec06"
