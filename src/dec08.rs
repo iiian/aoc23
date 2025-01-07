@@ -1,8 +1,10 @@
 #![feature(let_chains)]
-use std::collections::HashMap;
+use num::{self, BigInt, FromPrimitive};
+use std::collections::{HashMap, VecDeque};
 use std::time::Instant;
 use std::{error::Error, fs::read_to_string};
 
+use either::Either::{self, Left, Right};
 use regex::Regex;
 fn main() -> Result<(), Box<dyn Error>> {
     let raw = read_to_string("inputs/dec08.txt")?;
@@ -17,7 +19,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Test 2: {result}, {}µs", now.elapsed().as_millis());
     Ok(())
 }
-
 fn parse(input: &str) -> (Vec<char>, HashMap<&str, (&str, &str)>) {
     let (steps, edges) = input.split_once("\n\n").unwrap();
     let re = Regex::new(r"(\w{3}) = \((\w{3}), (\w{3})\)").unwrap();
@@ -52,8 +53,37 @@ fn handle_puzzle1(raw: &str) -> usize {
     num_steps
 }
 
-fn handle_puzzle2(raw: &str) -> i64 {
-    todo!()
+fn handle_puzzle2(raw: &str) -> usize {
+    let (steps, edges) = parse(raw);
+    let mut c = edges
+        .keys()
+        .cloned()
+        .filter(|k| k.ends_with('A'))
+        .collect::<Vec<_>>();
+    let mut num_steps = 1;
+    let mut steps = steps.into_iter().cycle();
+    let mut new_c = vec![];
+    while let Some(step) = steps.next()
+        && !c.is_empty()
+    {
+        let mut new = Vec::new();
+        while let Some(mut c) = c.pop() {
+            let Some(edge) = edges.get(c) else { panic!() };
+            c = if step == 'L' { edge.0 } else { edge.1 };
+            if c.ends_with('Z') {
+                new_c.push(num_steps);
+            } else {
+                new.push(c);
+            }
+        }
+        c = new;
+        num_steps += 1;
+    }
+
+    new_c
+        .into_iter()
+        .reduce(|x, y| num::integer::lcm(x, y))
+        .unwrap()
 }
 
 #[test]
@@ -65,9 +95,18 @@ fn test_puzzle1() {
 
 #[test]
 fn test_puzzle2() {
-    let test_input = r#""#;
+    let test_input = r#"LR
 
-    assert_eq!(handle_puzzle2(test_input), todo!());
+11A = (11B, XXX)
+11B = (XXX, 11Z)
+11Z = (11B, XXX)
+22A = (22B, XXX)
+22B = (22C, 22C)
+22C = (22Z, 22Z)
+22Z = (22B, 22B)
+XXX = (XXX, XXX)"#;
+
+    assert_eq!(handle_puzzle2(test_input), BigInt::from(6));
 }
 
 #[test]
