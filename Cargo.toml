@@ -1,18 +1,16 @@
-cargo-features = ["edition2024"]
-
 [package]
 name = "aoc23"
 version = "0.1.0"
-edition = "2024"
-default-run = "dec08"
+edition = "2021"
+default-run = "dec09"
 
 [[bin]]
-name = "dec08"
+path = "src/dec09.rs"
+name = "dec09"
+
+[[bin]]
 path = "src/dec08.rs"
-
-[[bin]]
-name = "dec06"
-path = "src/dec06.rs"
+name = "dec08"
 
 [[bin]]
 name = "dec05"
@@ -30,6 +28,7 @@ path = "src/dec03.rs"
 name = "dec02"
 path = "src/dec02.rs"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 either = "1.13.0"
@@ -37,4 +36,5 @@ itertools = "0.13.0"
 num = "0.4.3"
 rayon = "1.10.0"
 regex = "1.11.1"
-tokio = "1.42.0"
+reqwest = { version = "0.12.9", features = ["cookies"] }
+tokio = { version = "1.42.0", features = ["full"] }

@@ -106,7 +106,7 @@ fn test_puzzle2() {
 22Z = (22B, 22B)
 XXX = (XXX, XXX)"#;
 
-    assert_eq!(handle_puzzle2(test_input), BigInt::from(6));
+    assert_eq!(handle_puzzle2(test_input), 6_usize);
 }
 
 #[test]
